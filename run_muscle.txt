@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+# Run muscle to build msa
+muscle -clw -in muscle_input.fasta -out muscle_output.fasta

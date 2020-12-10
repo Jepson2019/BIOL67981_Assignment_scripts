@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+rm muscle_input.fasta
+
+
+# Get input data (uniprot ids)
+LIST=$(cat ${1})
+
+
+
+# Loop to download data
+#This section fetces each accession from the list provided and adds it to a master file called muscle_input.fasta 
+
+for i in ${LIST}
+	do
+		echo "(o) Downloading NCBI entry: ${i}"
+		esearch -db protein -query "${i}" |
+  efetch -format fasta >>${i}.fasta
+		echo "(o) Done downloading ${i}"
+
+# Construct muscle input
+		cat ${i}.fasta >> muscle_input.fasta
+		rm ${i}.fasta
+	done
+

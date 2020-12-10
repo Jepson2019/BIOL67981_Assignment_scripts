@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+# Input: protein_blast.csv
+
+# Filter for the hits which show the 80-70% homology
+awk '$11<0.05' protein_blast.csv | awk '$3<80 && $3>70' > protein_blast_sorted.csv 
+
+# Isolate the Accession column (col2)
+cut -f2 protein_blast_sorted.csv > protein_blast_hit_list.csv
+
+# Remove any duplicate accession numbers
+cat protein_blast_hit_list.csv | uniq > protein_blast_hit_unique.csv
+
+# Sanity check the lists. The protein_blast_hit_unique.csv file will be submitted  to NCBI database with the get_ncbi_seq.sh script
+wc -l protein_blast_hit_list.csv
+wc -l protein_blast_hit_unique.csv

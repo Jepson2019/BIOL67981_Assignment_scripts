@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+# Activate msa environment
+conda activate msa
+
+# Get input data (uniprot ids)
+LIST=$(cat ${1})
+
+URL='https://www.uniprot.org/uniprot/'
+
+# Loop to download data
+for i in ${LIST}
+	do
+		echo "(o) Downloading Uniprot entry: ${i}"
+		wget ${URL}${i}.fasta --no-check-certificate
+		echo "(o) Done downloading ${i}"
+
+		# Construct muscle input
+		cat ${i}.fasta >> muscle_input.fasta
+		rm ${i}.fasta
+	done
+
+# Run muscle to build msa
+muscle -clw -in muscle_input.fasta -out muscle_output.clw
+

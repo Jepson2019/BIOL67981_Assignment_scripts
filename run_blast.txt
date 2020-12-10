@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+# Store input sequences as a variable 
+my_sequence=${1}
+
+# Run BLAST seach agains the blastp database
+blastp -query ${my_sequence} -db nr -outfmt 6 -remote > protein_blast.csv
